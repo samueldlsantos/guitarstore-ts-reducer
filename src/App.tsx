@@ -21,7 +21,6 @@ function App() {
     <>
       <Header
         cart={cart}
-        setCart={setCart}
         handleDeleteItem={handleDeleteItem}
         handleIncreaseQuantity={handleIncreaseQuantity}
         handleDecreaseQuantity={handleDecreaseQuantity}
@@ -30,8 +29,6 @@ function App() {
       />
       <GuitarCollection
         guitars={guitars}
-        cart={cart}
-        setCart={setCart}
         handleAddToCart={handleAddToCart}
         guitarExists={guitarExists}
       />

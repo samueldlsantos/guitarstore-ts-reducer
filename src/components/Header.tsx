@@ -1,3 +1,14 @@
+import type { CartItem, GuitarT } from "../types";
+
+type HeaderProps = {
+  cart: CartItem[],
+  handleDeleteItem: (id: GuitarT["id"]) => void,
+  handleIncreaseQuantity: (id: GuitarT["id"]) => void,
+  handleDecreaseQuantity: (id: GuitarT["id"]) => void,
+  handleClearCart: () => void,
+  cartTotal: () => number,
+}
+
 const Header = ({
   cart,
   handleDeleteItem,
@@ -5,7 +16,7 @@ const Header = ({
   handleDecreaseQuantity,
   handleClearCart,
   cartTotal,
-}) => {
+} : HeaderProps) => {
   return (
     <header className="py-5 header">
       <div className="container-xl">

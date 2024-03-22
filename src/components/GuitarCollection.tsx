@@ -1,12 +1,18 @@
 import Guitar from "./Guitar";
+import type { GuitarT} from '../types'
+
+type GuitarCollectionProps = {
+  guitars: GuitarT[],
+  handleAddToCart: (item: GuitarT) => void,
+  guitarExists: (id: GuitarT["id"]) => boolean
+}
+
 
 const GuitarCollection = ({
   guitars,
-  cart,
-  setCart,
   handleAddToCart,
   guitarExists,
-}) => {
+} : GuitarCollectionProps) => {
   return (
     <main className="container-xl mt-5">
       <h2 className="text-center">Nuestra Colección</h2>
@@ -17,8 +23,6 @@ const GuitarCollection = ({
             <Guitar
               key={guitar.id}
               guitar={guitar}
-              cart={cart}
-              setCart={setCart}
               handleAddToCart={handleAddToCart}
               guitarExists={guitarExists}
             />

@@ -1,20 +1,6 @@
-type Guitar = {
-    id: number,
-    name: string,
-    image: string,
-    description: string,
-    price: number
-}
-    
-// interface Guitar {
-//     id: number,
-//     name: string,
-//     image: string,
-//     description: string,
-//     price: number
-// }
+import type { GuitarT} from '../types'
 
-export const db : Guitar[] = [
+export const db : GuitarT[] = [
     {
         id: 1,
         name: 'Lukather',
