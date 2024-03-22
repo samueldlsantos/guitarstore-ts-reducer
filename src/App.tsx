@@ -7,7 +7,6 @@ function App() {
   const {
     guitars,
     cart,
-    setCart,
     handleDeleteItem,
     handleIncreaseQuantity,
     handleDecreaseQuantity,
