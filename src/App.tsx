@@ -1,34 +1,32 @@
 import Header from "./components/Header";
 import GuitarCollection from "./components/GuitarCollection";
 import Footer from "./components/Footer";
-import useCart from "./hooks/useCart";
+import { useReducer, useEffect } from "react";
+import { cartReducer, inititalState } from "./reducer/cart-reducer";
 
 function App() {
-  const {
-    guitars,
-    cart,
-    handleDeleteItem,
-    handleIncreaseQuantity,
-    handleDecreaseQuantity,
-    handleClearCart,
-    cartTotal,
-    handleAddToCart,
-    guitarExists,
-  } = useCart();
 
+  const [state, dispatch] = useReducer(cartReducer, inititalState )
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(state.cart));
+  }, [state.cart]);
+
+  const guitarExists = (id: number) => {
+    var guitarExists = state.cart.find((guitar) => guitar.id === id);
+    if (guitarExists) return true;
+    return false;
+  };
+ 
   return (
     <>
       <Header
-        cart={cart}
-        handleDeleteItem={handleDeleteItem}
-        handleIncreaseQuantity={handleIncreaseQuantity}
-        handleDecreaseQuantity={handleDecreaseQuantity}
-        handleClearCart={handleClearCart}
-        cartTotal={cartTotal}
+        cart={ state.cart }
+        dispatch={dispatch}
       />
       <GuitarCollection
-        guitars={guitars}
-        handleAddToCart={handleAddToCart}
+        guitars={ state.guitars }
+        dispatch={dispatch}
         guitarExists={guitarExists}
       />
       <Footer />

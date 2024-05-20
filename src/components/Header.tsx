@@ -1,22 +1,64 @@
+import { CartActions } from "../reducer/cart-reducer";
 import type { CartItem, GuitarT } from "../types";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 type HeaderProps = {
   cart: CartItem[],
-  handleDeleteItem: (id: GuitarT["id"]) => void,
-  handleIncreaseQuantity: (id: GuitarT["id"]) => void,
-  handleDecreaseQuantity: (id: GuitarT["id"]) => void,
-  handleClearCart: () => void,
-  cartTotal: () => number,
+  dispatch: React.Dispatch<CartActions>
 }
 
 const Header = ({
   cart,
-  handleDeleteItem,
-  handleIncreaseQuantity,
-  handleDecreaseQuantity,
-  handleClearCart,
-  cartTotal,
+  dispatch,
 } : HeaderProps) => {
+
+  const cartTotal = () =>
+    cart.reduce((total, item) => total + item.quantity * item.price, 0);
+
+  const handleDeleteItem = (id: GuitarT['id']) => {
+    const MySwal = withReactContent(Swal);
+
+    MySwal.fire({
+      //Para agregar css personalizado a los botones
+      // buttonsStyling: false,
+      // customClass: {
+      //   footer:"flex justify-content-between",
+      //   confirmButton: "btn btn-dark w-100",
+      //   cancelButton: "btn btn-dark w-100"
+      // },
+      title: "Estas seguro de eliminar el articulo?",
+      text: "No seras capaz de revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Si, eliminar!",
+      cancelButtonText: "Cancelar",
+  }).then((result) => {
+
+    if(result.isConfirmed)
+    dispatch({type:"delete-item", payload:{id: id}})
+
+  });
+  }
+
+  const handleClearCart = () => {
+    const MySwal = withReactContent(Swal);
+
+    MySwal.fire({
+      title: "Estas seguro de vaciar el carrito?",
+      text: "No seras capaz de revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Si, vaciar!",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch({type:'clear-cart'})
+      }
+    });
+  };
+  
+
   return (
     <header className="py-5 header">
       <div className="container-xl">
@@ -69,7 +111,7 @@ const Header = ({
                               <button
                                 type="button"
                                 className="btn btn-dark"
-                                onClick={() => handleDecreaseQuantity(item.id)}
+                                onClick={() => dispatch({type: 'decrease-quantity', payload:{id: item.id }})}
                               >
                                 -
                               </button>
@@ -77,7 +119,7 @@ const Header = ({
                               <button
                                 type="button"
                                 className="btn btn-dark"
-                                onClick={() => handleIncreaseQuantity(item.id)}
+                                onClick={() => dispatch({type: 'increase-quantity', payload:{id: item.id }})}
                               >
                                 +
                               </button>
@@ -102,7 +144,7 @@ const Header = ({
                     </p>
                     <button
                       className="btn btn-dark w-100 mt-3 p-2"
-                      onClick={handleClearCart}
+                      onClick={ () => handleClearCart()}
                     >
                       Vaciar Carrito
                     </button>

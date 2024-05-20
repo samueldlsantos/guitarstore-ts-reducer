@@ -1,16 +1,17 @@
 import Guitar from "./Guitar";
 import type { GuitarT} from '../types'
+import { CartActions } from "../reducer/cart-reducer";
 
 type GuitarCollectionProps = {
   guitars: GuitarT[],
-  handleAddToCart: (item: GuitarT) => void,
+  dispatch: React.Dispatch<CartActions>
   guitarExists: (id: GuitarT["id"]) => boolean
 }
 
 
 const GuitarCollection = ({
   guitars,
-  handleAddToCart,
+  dispatch,
   guitarExists,
 } : GuitarCollectionProps) => {
   return (
@@ -23,7 +24,7 @@ const GuitarCollection = ({
             <Guitar
               key={guitar.id}
               guitar={guitar}
-              handleAddToCart={handleAddToCart}
+              dispatch={dispatch}
               guitarExists={guitarExists}
             />
           ))}
